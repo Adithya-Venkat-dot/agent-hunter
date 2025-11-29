@@ -1,1 +1,7 @@
-pip install -r requirements.txt
+streamlit
+pandas
+numpy
+tensorflow
+scikit-learn
+joblib
+plotly
