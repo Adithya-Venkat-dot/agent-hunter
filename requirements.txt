@@ -5,3 +5,5 @@ tensorflow
 scikit-learn
 joblib
 plotly
+streamlit-lottie
+requests
