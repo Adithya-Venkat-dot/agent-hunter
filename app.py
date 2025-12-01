@@ -49,7 +49,6 @@ if st.session_state['first_load']:
 
 # --- YOUR MAIN APP CODE STARTS HERE ---
 st.title("Welcome to the Dashboard")
-st.write("The animation is gone, and the app is ready!")
 st.button("Click me (I won't trigger the animation again)")
 
 # --- SAFELY IMPORT PLOTLY ---
@@ -211,3 +210,4 @@ if uploaded_file is not None and model is not None:
     else:
 
         st.warning(f"Not enough data. Each IP needs at least {LOOKBACK + 1} packets.")
+
