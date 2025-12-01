@@ -3,6 +3,54 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 import joblib
+import streamlit as st
+import time
+import requests
+from streamlit_lottie import st_lottie
+
+# 1. Setup Page Config
+st.set_page_config(page_title="My Cool App", layout="wide")
+
+# 2. Function to load Lottie Animations
+def load_lottieurl(url: str):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
+
+# 3. The Logic: Only run this on the first load
+if 'first_load' not in st.session_state:
+    st.session_state['first_load'] = True
+
+if st.session_state['first_load']:
+    # Create an empty container to hold the animation
+    loader_placeholder = st.empty()
+    
+    # Load a cool animation (this URL is a tech/network animation)
+    lottie_url = "https://assets9.lottiefiles.com/packages/lf20_p8bfn5to.json"
+    lottie_json = load_lottieurl(lottie_url)
+
+    # Render the animation in the container
+    with loader_placeholder.container():
+        # You can use columns to center the animation if needed
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st_lottie(lottie_json, height=300, key="loader")
+            st.markdown("<h3 style='text-align: center;'>Setting things up...</h3>", unsafe_allow_html=True)
+    
+    # Simulate loading delay (or put your heavy computation here)
+    time.sleep(3) 
+    
+    # Clear the placeholder (making the animation disappear)
+    loader_placeholder.empty()
+    
+    # Mark first load as false so it doesn't happen on button clicks
+    st.session_state['first_load'] = False
+
+# --- YOUR MAIN APP CODE STARTS HERE ---
+st.title("Welcome to the Dashboard")
+st.write("The animation is gone, and the app is ready!")
+st.button("Click me (I won't trigger the animation again)")
 
 # --- SAFELY IMPORT PLOTLY ---
 # This block prevents the app from crashing if plotly is missing
@@ -161,4 +209,5 @@ if uploaded_file is not None and model is not None:
             st.warning("⚠️ Plotly library not found. Install it with `pip install plotly` to see the visualization.")
             
     else:
+
         st.warning(f"Not enough data. Each IP needs at least {LOOKBACK + 1} packets.")
